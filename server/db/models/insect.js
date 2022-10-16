@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
 					isTitle(value) {
 						const initials = value.split(" ").map((word) => word.split("")[0]);
 						initials.forEach((element) => {
-							if (element.toUpperCase !== element) {
-								throw new Error("Must be Title Cased.. ");
+							if (element.toUpperCase() !== element) {
+								throw new Error(`Must be Title Cased.. ${element} `);
 							}
 						});
 					},
@@ -30,8 +30,24 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			description: DataTypes.STRING,
 			territory: DataTypes.STRING,
-			fact: DataTypes.STRING,
-			millimeters: DataTypes.FLOAT,
+			fact: {
+				type: DataTypes.STRING(240),
+				validate: {
+					isLessThan240(v) {
+						const numOfChars = v.split("").length;
+						if (numOfChars > 240) {
+							throw new Error("Fact has to be less than 240 ");
+						}
+					},
+				},
+			},
+			millimeters: {
+				type: DataTypes.FLOAT,
+				allowNull: false,
+				validate: {
+					min: 0,
+				},
+			},
 		},
 		{
 			sequelize,

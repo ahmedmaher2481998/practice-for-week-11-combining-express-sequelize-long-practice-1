@@ -10,6 +10,8 @@ module.exports = {
 			},
 			name: {
 				type: Sequelize.STRING,
+				allowNull: false,
+				unique: true,
 			},
 			description: {
 				type: Sequelize.STRING,
@@ -18,18 +20,21 @@ module.exports = {
 				type: Sequelize.STRING,
 			},
 			fact: {
-				type: Sequelize.STRING,
+				type: Sequelize.STRING(240),
 			},
 			millimeters: {
 				type: Sequelize.FLOAT,
+				allowNull: false,
 			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
+				defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
 			},
 			updatedAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
+				defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
 			},
 		});
 	},
